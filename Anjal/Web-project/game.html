@@ -1,0 +1,83 @@
+<!-- game.html : Rock Paper Scissors game logic -->
+<script>
+  const emojis = { rock: '🪨', paper: '📄', scissors: '✂️' };
+  const choices = ['rock', 'paper', 'scissors'];
+  let scores = { you: 0, cpu: 0, draw: 0 };
+  let history = [];
+
+  function play(playerChoice) {
+    const cpuChoice = choices[Math.floor(Math.random() * 3)];
+    const result = getResult(playerChoice, cpuChoice);
+
+    const pe = document.getElementById('playerEmoji');
+    const ce = document.getElementById('cpuEmoji');
+    pe.textContent = emojis[playerChoice];
+    ce.textContent = emojis[cpuChoice];
+    pe.classList.remove('bounce');
+    ce.classList.remove('bounce');
+    void pe.offsetWidth;
+    pe.classList.add('bounce');
+    ce.classList.add('bounce');
+
+    const banner = document.getElementById('resultBanner');
+    banner.className = 'result-banner ' + result.cls;
+    banner.textContent = result.msg;
+
+    if (result.cls === 'win') scores.you++;
+    if (result.cls === 'lose') scores.cpu++;
+    if (result.cls === 'draw') scores.draw++;
+
+    document.getElementById('scoreYou').textContent = scores.you;
+    document.getElementById('scoreCPU').textContent = scores.cpu;
+    document.getElementById('scoreDraw').textContent = scores.draw;
+
+    history.unshift({
+      player: playerChoice,
+      cpu: cpuChoice,
+      cls: result.cls,
+      label: result.cls.toUpperCase()
+    });
+
+    renderHistory();
+  }
+
+  function getResult(p, c) {
+    if (p === c) return { cls: 'draw', msg: "It's a Draw!" };
+    if (
+      (p === 'rock' && c === 'scissors') ||
+      (p === 'paper' && c === 'rock') ||
+      (p === 'scissors' && c === 'paper')
+    ) {
+      return { cls: 'win', msg: "You Win!" };
+    }
+    return { cls: 'lose', msg: "CPU Wins!" };
+  }
+
+  function renderHistory() {
+    const list = document.getElementById('historyList');
+    list.innerHTML = '';
+
+    history.slice(0, 8).forEach(round => {
+      const item = document.createElement('div');
+      item.className = 'history-item ' + round.cls;
+      item.innerHTML = `
+        <span class="h-emojis">${emojis[round.player]} vs ${emojis[round.cpu]}</span>
+        <span class="h-result ${round.cls}">${round.label}</span>
+      `;
+      list.appendChild(item);
+    });
+  }
+
+  function resetGame() {
+    scores = { you: 0, cpu: 0, draw: 0 };
+    history = [];
+    document.getElementById('scoreYou').textContent = 0;
+    document.getElementById('scoreCPU').textContent = 0;
+    document.getElementById('scoreDraw').textContent = 0;
+    document.getElementById('playerEmoji').textContent = '😎';
+    document.getElementById('cpuEmoji').textContent = '🤖';
+    document.getElementById('resultBanner').className = 'result-banner';
+    document.getElementById('resultBanner').textContent = 'Pick your move!';
+    document.getElementById('historyList').innerHTML = '';
+  }
+</script>
