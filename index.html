@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WebDev — Web Development Project</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f7f7f4;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e7e5e4;
+
+      --accent: #5b7c99;
+      --accent-hover: #49677f;
+      --accent-soft: #edf3f8;
+
+      --secondary-soft: #eef2ec;
+
+      --shadow: 0 6px 24px rgba(31, 41, 55, 0.06);
+      --radius: 16px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      background: var(--accent);
+      color: white;
+      padding: 0.72rem 1rem;
+      border-radius: 10px;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent-hover);
+      color: white;
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+    }
+
+    .hero {
+      padding: 6rem 0 5rem;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.45rem 0.95rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.15;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 0 auto 2rem;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: #f3f4f6;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-number {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    section {
+      padding: 5rem 0;
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-head p {
+      max-width: 650px;
+      margin: 0 auto;
+      color: var(--muted);
+    }
+
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .topic-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      font-size: 1.08rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .topic-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.7rem;
+      background: var(--secondary-soft);
+      color: var(--text);
+      border-radius: 999px;
+      font-weight: 500;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .about-text h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .about-cards {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .about-card {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .about-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .about-card h4 {
+      margin-bottom: 0.3rem;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .about-card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    .member-card {
+      text-align: center;
+    }
+
+    .member-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .member-name {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .member-role {
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .member-bio {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .contrib-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    .contrib-tag {
+      background: var(--secondary-soft);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      background: #fcfcfa;
+      padding: 3rem 0 2rem;
+      margin-top: 2rem;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .footer-brand p,
+    .footer-links a,
+    .footer-bottom {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .footer-links h5 {
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .footer-links a {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid var(--border);
+      padding-top: 1.2rem;
+    }
+
+    @media (max-width: 900px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: white;
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        padding: 1rem 0;
+      }
+
+      nav.open {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container navbar">
+      <a href="index.html" class="logo">WebDev</a>
+
+      <nav id="nav">
+        <a href="#topics">Topics</a>
+        <a href="#team">Team</a>
+        <a href="game.html">Game</a>
+        <a href="project-details.html">Project Details</a>
+        <a href="contact.html" class="nav-cta">Contact</a>
+      </nav>
+
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-badge">Web Development Project 2026</div>
+        <h1>Building the Modern Web From Scratch</h1>
+        <p>
+          A simple showcase of our learning journey in HTML, CSS, and JavaScript,
+          created as a collaborative student web development project.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#topics" class="btn btn-primary">Explore Topics</a>
+          <a href="#team" class="btn btn-secondary">Meet the Team</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Topics Covered</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">2</div>
+            <div class="stat-label">Team Members</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Pages Built</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="topics">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tag">What We Learned</div>
+          <h2>Core Web Development Topics</h2>
+          <p>
+            These are the key concepts we explored while building this project.
+          </p>
+        </div>
+
+        <div class="topics-grid">
+          <div class="card">
+            <div class="topic-icon">🏗️</div>
+            <h3>HTML Fundamentals</h3>
+            <p>Semantic structure, forms, tables, accessibility, and clean HTML5 layout.</p>
+            <span class="topic-badge">Foundation</span>
+          </div>
+
+          <div class="card">
+            <div class="topic-icon">🎨</div>
+            <h3>CSS Styling</h3>
+            <p>Selectors, box model, spacing, variables, and clean visual design principles.</p>
+            <span class="topic-badge">Styling</span>
+          </div>
+
+          <div class="card">
+            <div class="topic-icon">📐</div>
+            <h3>Flexbox & Grid</h3>
+            <p>Modern layout systems for structuring content in responsive and flexible ways.</p>
+            <span class="topic-badge">Layout</span>
+          </div>
+
+          <div class="card">
+            <div class="topic-icon">📱</div>
+            <h3>Responsive Design</h3>
+            <p>Making the website work smoothly on desktop, tablet, and mobile screens.</p>
+            <span class="topic-badge">Responsive</span>
+          </div>
+
+          <div class="card">
+            <div class="topic-icon">⚙️</div>
+            <h3>JavaScript Basics</h3>
+            <p>Functions, variables, arrays, loops, conditions, and adding logic to the web.</p>
+            <span class="topic-badge">Programming</span>
+          </div>
+
+          <div class="card">
+            <div class="topic-icon">🌐</div>
+            <h3>DOM Manipulation</h3>
+            <p>Updating page content dynamically and responding to user interaction.</p>
+            <span class="topic-badge">Interactivity</span>
+          </div>
+
+          <div class="card">
+            <div class="topic-icon">✅</div>
+            <h3>Form Validation</h3>
+            <p>Checking user input and improving the contact form experience.</p>
+            <span class="topic-badge">UX</span>
+          </div>
+
+          <div class="card">
+            <div class="topic-icon">✨</div>
+            <h3>CSS Animations</h3>
+            <p>Using transitions and motion carefully to improve usability and polish.</p>
+            <span class="topic-badge">Motion</span>
+          </div>
+
+          <div class="card">
+            <div class="topic-icon">🔗</div>
+            <h3>Git & GitHub</h3>
+            <p>Tracking changes, collaborating, and managing project versions effectively.</p>
+            <span class="topic-badge">Tooling</span>
+          </div>
+
+          <div class="card">
+            <div class="topic-icon">🎮</div>
+            <h3>Game Logic with JS</h3>
+            <p>Building browser-based interaction through logic, events, and state updates.</p>
+            <span class="topic-badge">Advanced</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container about-grid">
+        <div class="about-text">
+          <div class="section-tag">About the Project</div>
+          <h2>Why We Built This</h2>
+          <p>
+            This project brings together the main concepts we learned in web development,
+            from semantic HTML to JavaScript interactivity.
+          </p>
+          <p>
+            Our goal was to build a complete, responsive multi-page website that shows both
+            our technical skills and our ability to work together as a team.
+          </p>
+          <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+        </div>
+
+        <div class="about-cards">
+          <div class="card about-card">
+            <div class="about-icon">🎯</div>
+            <div>
+              <h4>Our Goal</h4>
+              <p>Build a fully responsive website with multiple pages and a working contact form.</p>
+            </div>
+          </div>
+
+          <div class="card about-card">
+            <div class="about-icon">🛠️</div>
+            <div>
+              <h4>Game Building Process</h4>
+              <p>We created Rock Paper Scissors using JavaScript logic, user input, and score tracking.</p>
+            </div>
+          </div>
+
+          <div class="card about-card">
+            <div class="about-icon">⚡</div>
+            <div>
+              <h4>Challenges We Faced</h4>
+              <p>We worked through responsive layouts, form validation, and design consistency across pages.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="team">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tag">The Team</div>
+          <h2>Meet the Developers</h2>
+          <p>Two students working together to build a clean and functional web project.</p>
+        </div>
+
+        <div class="team-grid">
+          <div class="card member-card">
+            <div class="member-avatar">KG</div>
+            <div class="member-name">Kripesh Gurung</div>
+            <div class="member-role">Frontend Developer</div>
+            <p class="member-bio">
+              Focused on layout, styling, and creating a responsive and polished interface.
+            </p>
+            <div class="contrib-tags">
+              <span class="contrib-tag">Homepage</span>
+              <span class="contrib-tag">CSS Design</span>
+              <span class="contrib-tag">Responsive Layout</span>
+              <span class="contrib-tag">Hero Section</span>
+            </div>
+          </div>
+
+          <div class="card member-card">
+            <div class="member-avatar">AT</div>
+            <div class="member-name">Anjal Thapa</div>
+            <div class="member-role">JavaScript Developer</div>
+            <p class="member-bio">
+              Worked on logic, interactivity, game development, and contact form validation.
+            </p>
+            <div class="contrib-tags">
+              <span class="contrib-tag">Game Page</span>
+              <span class="contrib-tag">Form Validation</span>
+              <span class="contrib-tag">JS Logic</span>
+              <span class="contrib-tag">DOM Events</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">WebDev</div>
+          <p>A student project built with HTML, CSS, and JavaScript.</p>
+        </div>
+
+        <div class="footer-links">
+          <h5>Pages</h5>
+          <a href="index.html">Home</a>
+          <a href="game.html">Game</a>
+          <a href="contact.html">Contact</a>
+        </div>
+
+        <div class="footer-links">
+          <h5>Sections</h5>
+          <a href="#topics">Topics</a>
+          <a href="#team">Team</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2026 WebDev — Built by two web development students
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const nav = document.getElementById("nav");
+
+    hamburger.addEventListener("click", () => {
+      nav.classList.toggle("open");
+    });
+
+    document.querySelectorAll("nav a").forEach(link => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("open");
+      });
+    });
+  </script>
+
+</body>
+</html>
